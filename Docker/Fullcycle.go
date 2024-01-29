@@ -1,5 +1,7 @@
-package Fullcyle
+package main
+
+import "fmt"
 
 func main() {
-	println("Full Cycle Rocks!!")
+	fmt.Println("Full Cycle Rocks!!")
 }
