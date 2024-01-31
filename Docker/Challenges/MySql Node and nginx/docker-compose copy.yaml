@@ -1,0 +1,54 @@
+version: '3'
+services: 
+
+  db:
+    image: mysql:latest
+    command: 
+       ["mysqld", "--init-file", "./migration_db_init_script.sql",  "--innodb-use-native-aio=0"]
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=12345@net
+    networks:
+      - node-network
+    ports: 
+      - "3306:3306"
+
+  app:
+    build:
+      context: node
+      dockerfile: Dockerfile.prod
+    container_name: app
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 30s node index.js
+    networks:
+      - node-network
+    volumes:
+      - ./node:/usr/src/app
+    tty: true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile.prod
+    container_name: nginx
+    networks:
+      - node-network
+    volumes:
+      - ./nginx:/usr/src/app
+    tty: true
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+
+networks:
+  node-network:
+    driver: bridge

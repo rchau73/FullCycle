@@ -2,14 +2,15 @@ version: '3'
 services: 
 
   db:
-    image: mysql:latest
-    command: 
-       ["mysqld", "--init-file", "./migration_db_init_script.sql",  "--innodb-use-native-aio=0"]
+    build:
+      context: mysql
+      dockerfile: Dockerfile.prod
     container_name: db
+    command: --innodb-use-native-aio=0
     restart: always
     tty: true
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./mysql/db:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=12345@net
