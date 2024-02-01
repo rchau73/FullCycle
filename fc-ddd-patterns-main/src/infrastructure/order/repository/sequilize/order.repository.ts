@@ -59,7 +59,7 @@ export default class OrderRepository implements OrderRepositoryInterface {
     try{
         orderModel = await OrderModel.findOne({
             where: {
-                id: id,
+                id,
             },
             include: [{ model: OrderItemModel }],
             rejectOnEmpty: true,
@@ -84,15 +84,15 @@ export default class OrderRepository implements OrderRepositoryInterface {
         include: [{ model: OrderItemModel }],
     });
 
-    const orders = ordersModels.map((ordersModels) => {
+    const orders = ordersModels.map((orderModel) => {
         const orderItems: OrderItem[] = [];
-        ordersModels.items.map(item => {
+        orderModel.items.map(item => {
             const orderItem = new OrderItem(item.id, item.name, item.price, item.product_id, item.quantity);
             orderItems.push(orderItem);
         });
-        const order = new Order(ordersModels.id, ordersModels.customer_id, orderItems);
+        const order = new Order(orderModel.id, orderModel.customer_id, orderItems);
         return order;
-    } )
+    });
     return orders;
   }
 }
