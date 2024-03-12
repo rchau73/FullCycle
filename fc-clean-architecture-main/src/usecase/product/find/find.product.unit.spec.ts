@@ -37,7 +37,7 @@ const MockRepository = () => {
     it("should not find a product", async () => {
       const productRepository = MockRepository();
       productRepository.find.mockImplementation(() => {
-        throw new Error("Product not found");
+        throw new Error("product: Product not found");
       });
       const usecase = new FindProductUseCase(productRepository);
   
@@ -47,6 +47,6 @@ const MockRepository = () => {
   
       expect(() => {
         return usecase.execute(input);
-      }).rejects.toThrow("Product not found");
+      }).rejects.toThrow("product: Product not found");
     });
   });

@@ -14,9 +14,7 @@ export default class Customer extends Entity {
     this._id = id;
     this._name = name;
     this.validate();
-    if (this.notification.hasErrors()) {
-      throw new NotificationError(this.notification.getErrors());
-    }
+
   }
 
   get name(): string {
@@ -29,6 +27,9 @@ export default class Customer extends Entity {
 
   validate() {
     CustomerValidatorFactory.create().validate(this);
+    if (this.notification.hasErrors()) {
+      throw new NotificationError(this.notification.getErrors());
+    }
   }
 
   changeName(name: string) {
@@ -50,7 +51,13 @@ export default class Customer extends Entity {
 
   activate() {
     if (this._address === undefined) {
-      throw new Error("Address is mandatory to activate a customer");
+      this.notification.addError({
+        message: "Address is mandatory to activate a customer",
+        context: "customer",
+      });
+    }
+    if (this.notification.hasErrors()) {
+      throw new NotificationError(this.notification.getErrors());
     }
     this._active = true;
   }

@@ -10,7 +10,7 @@ describe("Product factory unit test", () => {
     expect(product.constructor.name).toBe("Product");
   });
 
-  it("should create a proct type b", () => {
+  it("should create a product type b", () => {
     const product = ProductFactory.create("b", "Product B", 1);
 
     expect(product.id).toBeDefined();
@@ -21,7 +21,7 @@ describe("Product factory unit test", () => {
 
   it("should throw an error when product type is not supported", () => {
     expect(() => ProductFactory.create("c", "Product C", 1)).toThrowError(
-      "Product type not supported"
+      "product: Product type not supported"
     );
   });
 });
