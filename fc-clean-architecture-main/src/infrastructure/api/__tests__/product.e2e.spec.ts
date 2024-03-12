@@ -36,7 +36,7 @@ describe("E2E test for product", () => {
       .post("/product")
       .send({
         type: "a",
-        name: "PS5",
+        name: "PS55",
         price: 1,
       });
     expect(response.status).toBe(200);
@@ -44,20 +44,23 @@ describe("E2E test for product", () => {
       .post("/product")
       .send({
         type: "b",
-        name: "XBox",
+        name: "XBox7",
         price: 2,
       });
     expect(response2.status).toBe(200);
 
+    // Introduce a delay of 1 second (1000 milliseconds)
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const listResponse = await request(app).get("/product").send();
 
     expect(listResponse.status).toBe(200);
-    //expect(listResponse.body.products.length).toBe(2);
-    /* const product = listResponse.body.products[0];
-    expect(product.name).toBe("PS5");
+    expect(listResponse.body.products.length).toBe(2);
+    const product = listResponse.body.products[0];
+    expect(product.name).toBe("PS55");
     expect(product.price).toBe(1);
     const product2 = listResponse.body.products[1];
-    expect(product2.name).toBe("XBox");
+    expect(product2.name).toBe("XBox7");
     expect(product2.price).toBe(2);
 
     const listResponseXML = await request(app)
@@ -76,6 +79,6 @@ describe("E2E test for product", () => {
     expect(listResponseXML.text).toContain(`<name>XBox</name>`);
     expect(listResponseXML.text).toContain(`<price>2</price>`);
     expect(listResponseXML.text).toContain(`</product>`);
-    expect(listResponseXML.text).toContain(`</products>`); */
+    expect(listResponseXML.text).toContain(`</products>`);
   });
 });
