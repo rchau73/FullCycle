@@ -18,7 +18,7 @@ async function setupDb() {
     storage: ":memory:",
     logging: false,
   });
-  await sequelize.addModels([CustomerModel, ProductModel]);
+  await sequelize.addModels([ProductModel, CustomerModel]);
   await sequelize.sync();
 }
 setupDb();

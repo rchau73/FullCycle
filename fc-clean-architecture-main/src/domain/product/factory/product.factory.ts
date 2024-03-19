@@ -17,7 +17,7 @@ export default class ProductFactory {
         return new ProductB(uuid(), name, price);
       default:
         throw new NotificationError([{
-          message: "Product type not supported",
+          message: `Product type ${type} not supported`,
           context: "product"
         }]);
     }

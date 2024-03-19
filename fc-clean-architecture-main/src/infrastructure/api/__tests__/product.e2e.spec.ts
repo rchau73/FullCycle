@@ -40,6 +40,7 @@ describe("E2E test for product", () => {
         price: 1,
       });
     expect(response.status).toBe(200);
+    expect(response.body.name).toEqual("PS55");
     const response2 = await request(app)
       .post("/product")
       .send({
@@ -48,9 +49,10 @@ describe("E2E test for product", () => {
         price: 2,
       });
     expect(response2.status).toBe(200);
+    expect(response2.body.name).toEqual("XBox7");
 
-    // Introduce a delay of 1 second (1000 milliseconds)
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const test = await sequelize.query('SELECT id, name, price FROM products;', { raw: true });
+    console.log(test);
 
     const listResponse = await request(app).get("/product").send();
 
