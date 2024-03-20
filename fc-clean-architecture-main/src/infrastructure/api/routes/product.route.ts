@@ -7,7 +7,6 @@ import ProductPresenter from "../presenters/product.presenter";
 export const productRoute = express.Router();
 
 productRoute.post("/", async (req: Request, res: Response) => {
-  console.log(req.body)
   const usecase = new CreateProductUseCase(new ProductRepository());
   try {
     const productDto = {
@@ -23,7 +22,6 @@ productRoute.post("/", async (req: Request, res: Response) => {
 });
 
 productRoute.get("/", async (req: Request, res: Response) => {
-  console.log(req.body)
   const usecase = new ListProductUseCase(new ProductRepository());
   try {
     const output = await usecase.execute({});

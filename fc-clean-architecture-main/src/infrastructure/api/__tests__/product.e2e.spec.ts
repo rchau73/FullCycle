@@ -36,11 +36,11 @@ describe("E2E test for product", () => {
       .post("/product")
       .send({
         type: "a",
-        name: "PS55",
+        name: "PS5",
         price: 1,
       });
     expect(response.status).toBe(200);
-    expect(response.body.name).toEqual("PS55");
+    expect(response.body.name).toEqual("PS5");
     const response2 = await request(app)
       .post("/product")
       .send({
@@ -51,19 +51,16 @@ describe("E2E test for product", () => {
     expect(response2.status).toBe(200);
     expect(response2.body.name).toEqual("XBox7");
 
-    const test = await sequelize.query('SELECT id, name, price FROM products;', { raw: true });
-    console.log(test);
-
     const listResponse = await request(app).get("/product").send();
 
     expect(listResponse.status).toBe(200);
     expect(listResponse.body.products.length).toBe(2);
     const product = listResponse.body.products[0];
-    expect(product.name).toBe("PS55");
+    expect(product.name).toBe("PS5");
     expect(product.price).toBe(1);
     const product2 = listResponse.body.products[1];
     expect(product2.name).toBe("XBox7");
-    expect(product2.price).toBe(2);
+    expect(product2.price).toBe(4);
 
     const listResponseXML = await request(app)
     .get("/product")
@@ -78,8 +75,8 @@ describe("E2E test for product", () => {
     expect(listResponseXML.text).toContain(`<price>1</price>`);
     expect(listResponseXML.text).toContain(`</product>`);
     expect(listResponseXML.text).toContain(`<product>`);
-    expect(listResponseXML.text).toContain(`<name>XBox</name>`);
-    expect(listResponseXML.text).toContain(`<price>2</price>`);
+    expect(listResponseXML.text).toContain(`<name>XBox7</name>`);
+    expect(listResponseXML.text).toContain(`<price>4</price>`);
     expect(listResponseXML.text).toContain(`</product>`);
     expect(listResponseXML.text).toContain(`</products>`);
   });
