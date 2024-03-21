@@ -5,7 +5,7 @@ import CustomerValidatorFactory from "../factory/customer.validator.factory";
 
 export default class Customer extends Entity {
   private _name: string = "";
-  private _address!: Address;
+  private _address: Address;
   private _active: boolean = false;
   private _rewardPoints: number = 0;
 
@@ -41,6 +41,10 @@ export default class Customer extends Entity {
     return this._address;
   }
 
+  set Address(address: Address) {
+    this._address = address;
+  }
+
   changeAddress(address: Address) {
     this._address = address;
   }
@@ -70,7 +74,4 @@ export default class Customer extends Entity {
     this._rewardPoints += points;
   }
 
-  set Address(address: Address) {
-    this._address = address;
-  }
 }
